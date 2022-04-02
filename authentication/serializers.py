@@ -3,7 +3,7 @@ from .models import User
 from rest_framework import serializers
 from phonenumber_field.serializerfields import PhoneNumberField
 
-class UserCreationSerializer(serializers.ModelSerializer):
+class UserCreationSerializer(serializers.Serializer):
    username = serializers.CharField(max_length=25)
    email = serializers.EmailField(max_length=80)
    phone_number = PhoneNumberField(allow_null=False, allow_blank=False)
@@ -33,3 +33,6 @@ class UserCreationSerializer(serializers.ModelSerializer):
       
 
       return super().validate(attrs)
+   
+   def create(self, validated_data):
+      return User.objects.create(**validated_data)
